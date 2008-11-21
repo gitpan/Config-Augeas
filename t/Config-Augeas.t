@@ -60,6 +60,8 @@ ok($aug,"inserted new host");
 $aug->set("/files/etc/hosts/3/ipaddr","192.168.0.3") ;
 $aug->set("/files/etc/hosts/3/canonical","gandalf") ;
 
+# stupid value that tests correctly augeas
+$aug->set("/files/etc/ssh/sshd_config/Port",0) ; 
 
 $aug->rm("/files/etc/hosts/4") ;
 ok($aug,"removed entry");
@@ -85,4 +87,4 @@ map{ chomp; s/\s+/ /g;} @content ;
 
 is_deeply(\@content,\@expect,"check written file content");
 
-
+#$aug->print('/files/') ; # print all nodes into $data string
