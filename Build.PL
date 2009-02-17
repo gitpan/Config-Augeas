@@ -22,7 +22,7 @@ use strict ;
 
 # snatched from ExtUtils::PkgConfig
 # don't go any further if pkg-config cannot be found.
-my $have_pkg_config = `pkg-config --version`;
+my $have_pkg_config = eval {`pkg-config --version`; };
 
 if ($have_pkg_config eq "") {
     # Warn and exit with status 0 to indicate (to the user and the CPAN
@@ -54,11 +54,11 @@ EOW1
 my $aug_version = `pkg-config --modversion augeas` ;
 chomp($aug_cflags, $aug_libs, $aug_version) ;
 
-if (   not defined $aug_version or ( $aug_version lt '0.3.4')) {
+if (   not defined $aug_version or ( $aug_version lt '0.4.0')) {
     warn << "EOW2" ;
 ***
 *** 'pkg-config' did find augeas version $aug_version but 
-*** version 0.3.4 minimum is required
+*** version 0.4.0 minimum is required
 ***
 EOW2
     exit 0;
