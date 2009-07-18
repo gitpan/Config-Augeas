@@ -20,10 +20,18 @@ my $aug_root = 'augeas-root/';
 
 # cleanup before tests
 rmtree($aug_root);
-mkpath($aug_root.'etc/ssh/', { mode => 0755 }) ;
-copy($r_root.'etc/hosts',$aug_root.'etc/') ;
-copy($r_root.'etc/ssh/sshd_config',$aug_root.'etc/ssh/') ;
+mkpath($aug_root.'etc/ssh/', { mode => 0755 }) || die "Can't mkpath:$!";
+copy($r_root.'etc/hosts',$aug_root.'etc/') || die "Can't copy etc/hosts:$!";
+copy($r_root.'etc/ssh/sshd_config',$aug_root.'etc/ssh/')
+  || die "Can't copy etc/ssh/sshd_config:$!" ;
 
+
+# check that files were written
+foreach my $f (qw!hosts ssh/sshd_config!) {
+    my $testfile = $aug_root."etc/$f" ;
+    next if -r $testfile ;
+    die "Cannot test: file $testfile was not written";
+}
 
 my $written_file = $aug_root."etc/hosts.augnew" ;
 unlink ($written_file) if -e $written_file ;
