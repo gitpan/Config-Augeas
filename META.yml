@@ -1,22 +1,23 @@
 ---
-name: Config-Augeas
-version: 0.601
+abstract: 'Edit configuration files through Augeas C library'
 author:
-  - Dominique Dumont (ddumont at cpan dot org)
-abstract: Edit configuration files through Augeas C library
-license: lgpl
-resources:
-  license: http://opensource.org/licenses/lgpl-license.php
+  - 'Dominique Dumont (ddumont at cpan dot org)'
 build_requires:
+  ExtUtils::CBuilder: 0
   Test::More: 0
 configure_requires:
-  Module::Build: 0.35
+  Module::Build: 0.36
 dynamic_config: 1
-provides:
-  Config::Augeas:
-    file: lib/Config/Augeas.pm
-    version: 0.601
-generated_by: Module::Build version 0.35
+generated_by: 'Module::Build version 0.3603'
+license: lgpl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+name: Config-Augeas
+provides:
+  Config::Augeas:
+    file: lib/Config/Augeas.pm
+    version: 0.701
+resources:
+  license: http://opensource.org/licenses/lgpl-license.php
+version: 0.701
