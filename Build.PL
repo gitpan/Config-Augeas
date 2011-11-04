@@ -1,4 +1,5 @@
 #    Copyright (c) 2008-2009 Dominique Dumont.
+#    Copyright (c) 2011 Raphaël Pinson.
 #
 #    This library is free software; you can redistribute it and/or
 #    modify it under the terms of the GNU Lesser Public License as
@@ -54,7 +55,7 @@ EOW1
 my $aug_version = `pkg-config --modversion augeas` ;
 chomp($aug_cflags, $aug_libs, $aug_version) ;
 
-my $min_version = '0.6.0' ;
+my $min_version = '0.9.0' ;
 
 if (   not defined $aug_version or ( $aug_version lt $min_version)) {
     warn << "EOW2" ;
@@ -74,7 +75,7 @@ my $build = Module::Build->new
    module_name   => 'Config::Augeas',
    license       => 'lgpl',
    dist_version_from  => 'lib/Config/Augeas.pm' ,
-   dist_author   => "Dominique Dumont (ddumont at cpan dot org)",
+   dist_author   => "Raphaël Pinson (raphink at cpan dot org)",
    dist_abstract => "Edit configuration files through Augeas C library",
 
    dynamic_config       => 1,

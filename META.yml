@@ -1,8 +1,8 @@
 ---
 name: Config-Augeas
-version: 0.901
+version: 0.902
 author:
-  - Dominique Dumont (ddumont at cpan dot org)
+  - RaphaÃ«l Pinson (raphink at cpan dot org)
 abstract: Edit configuration files through Augeas C library
 license: lgpl
 resources:
@@ -15,7 +15,7 @@ dynamic_config: 1
 provides:
   Config::Augeas:
     file: lib/Config/Augeas.pm
-    version: 0.901
+    version: 0.902
 generated_by: Module::Build version 0.340201
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
