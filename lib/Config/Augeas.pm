@@ -1,5 +1,5 @@
 #    Copyright (c) 2008-2010 Dominique Dumont.
-#    Copyright (c) 2011 Raphaël Pinson.
+#    Copyright (c) 2011-2012 Raphaël Pinson.
 #
 #    This library is free software; you can redistribute it and/or
 #    modify it under the terms of the GNU Lesser Public License as
@@ -23,7 +23,7 @@ use warnings;
 use Carp;
 use IO::File ;
 
-our $VERSION = '0.902';
+our $VERSION = '0.903';
 
 require XSLoader;
 XSLoader::load('Config::Augeas', $VERSION);
@@ -245,11 +245,7 @@ sub set {
 
     my $result ;
     my $ret = $self->{aug_c} -> set($path,$value) ;
-
-    return 1 if $ret == 0;
-
-    $self -> print('/augeas') ;
-    croak __PACKAGE__," set: error with path $path";
+    return $ret == 0 ? 1 : 0 ;
 }
 
 =head2 insert ( label, before | after , path )
@@ -283,11 +279,7 @@ sub insert {
 
     my $result ;
     my $ret = $self->{aug_c} -> insert($path,$label, $before) ;
-
-    return 1 if $ret == 0;
-
-    $self->print('/augeas') ;
-    croak __PACKAGE__," insert: error with path $path";
+    return $ret == 0 ? 1 : 0 ;
 }
 
 =head2 remove ( path )
@@ -490,11 +482,13 @@ sub print {
     my $fd = IO::File->new ;
 
     if (defined $f_param) {
-	$fd->open($f_param,"w");
+        $fd->open($f_param,"w")
+            or croak  __PACKAGE__," opening '$f_param' for writing failed";
     }
     else {
 	# stdio 
-	$fd->fdopen(fileno(STDOUT),"w");
+	$fd->fdopen(fileno(STDOUT),"w")
+            or croak __PACKAGE__, " couldn't create handle to STDOUT";
     } 
 
     my $ret = $self->{aug_c} -> print($fd,$path) ;
@@ -636,6 +630,10 @@ L<Config::Augeas::Exporter> : A module to export the Augeas tree to various form
 
 Augeas mailing list: http://augeas.net/developers.html
 
+=item *
+
+Source repository: https://github.com/raphink/config-augeas
+
 =back
 
 =head1 AUTHORS
@@ -662,7 +660,7 @@ Copyright (C) 2008-2010 by Dominique Dumont
 
 =item *
 
-Copyright (C) 2011 by Raphael Pinson
+Copyright (C) 2011-2012 by Raphael Pinson
 
 =back
 
