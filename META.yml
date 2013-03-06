@@ -17,7 +17,7 @@ name: Config-Augeas
 provides:
   Config::Augeas:
     file: lib/Config/Augeas.pm
-    version: 0.903
+    version: 1.000
 resources:
   license: http://opensource.org/licenses/lgpl-license.php
-version: 0.903
+version: 1.000

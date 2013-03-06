@@ -8,7 +8,7 @@ use File::Copy ;
 
 use warnings ;
 use strict;
-use Test::More tests => 27 ;
+use Test::More tests => 30 ;
 
 ok(1,"Compilation done");
 
@@ -128,5 +128,21 @@ ok($emsg, "error_minor_message: $emsg") ;
 $emsg= $aug->error_details ;
 ok($emsg, "error_details: $emsg") ;
 
+# Test text_store and text_retrieve
+my $hosts = "192.168.0.1 rtr.example.com router\n";
+$aug->set('/raw/hosts', $hosts);
+$aug->text_store('Hosts.lns', '/raw/hosts', '/t1');
+$aug->text_retrieve('Hosts.lns', '/raw/hosts', '/t1', '/out/hosts');
+my $hosts_out = $aug->get('/out/hosts');
+is($hosts_out, $hosts, "retrieve ok");
+
+# Test rename
+$aug->set('/a/b/c', 'value');
+$ret = $aug->rename('/a/b/c', 'd');
+is($ret,1,"rename ok") ;
+
+$aug->set('/a/e/d', 'value2');
+$ret = $aug->rename('/a//d', 'x');
+is($ret,2,"rename ok") ;
 
 #$aug->print('') ;

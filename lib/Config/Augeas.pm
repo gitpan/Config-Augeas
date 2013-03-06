@@ -23,7 +23,7 @@ use warnings;
 use Carp;
 use IO::File ;
 
-our $VERSION = '0.903';
+our $VERSION = '1.000';
 
 require XSLoader;
 XSLoader::load('Config::Augeas', $VERSION);
@@ -248,6 +248,45 @@ sub set {
     return $ret == 0 ? 1 : 0 ;
 }
 
+=head2 text_store ( lens, node, path )
+
+Use the value of node C<node> as a string and transform it into a tree
+using the lens C<lens> and store it in the tree at C<path>, which will be
+overwritten. C<path> and C<node> are path expressions.
+
+=cut
+
+sub text_store {
+    my $self  = shift ;
+    my $lens  = shift || croak __PACKAGE__," text_store: undefined lens";
+    my $node  = shift || croak __PACKAGE__," text_store: undefined node";
+    my $path  = shift || croak __PACKAGE__," text_store: undefined path";
+
+    my $result ;
+    my $ret = $self->{aug_c} -> text_store($lens,$node,$path) ;
+    return $ret == 0 ? 1 : 0 ;
+}
+
+=head2 text_retrieve ( lens, node_in, path, node_out )
+
+Transform the tree at C<path> into a string using lens C<lens> and store it in
+the node C<node_out>, assuming the tree was initially generated using the
+value of node C<node_in>. C<path>, C<node_in>, and C<node_out> are path expressions.
+
+=cut
+
+sub text_retrieve {
+    my $self     = shift ;
+    my $lens     = shift || croak __PACKAGE__," text_store: undefined lens";
+    my $node_in  = shift || croak __PACKAGE__," text_store: undefined node_in";
+    my $path     = shift || croak __PACKAGE__," text_store: undefined path";
+    my $node_out = shift || croak __PACKAGE__," text_store: undefined node_out";
+
+    my $result ;
+    my $ret = $self->{aug_c} -> text_retrieve($lens,$node_in,$path,$node_out) ;
+    return $ret == 0 ? 1 : 0 ;
+}
+
 =head2 insert ( label, before | after , path )
 
 Create a new sibling C<label> for C<path> by inserting into the tree
@@ -329,6 +368,24 @@ sub move {
 
     my $result = $self->{aug_c} -> mv($src,$dst) ;
     return $result == 0 ? 1 : 0 ;
+}
+
+
+=head2 rename ( src, dest )
+
+Rename the label of all nodes matching C<src> to C<lbl>.
+
+Returns the number of nodes renamed on success and -1 on failure.
+
+=cut
+
+sub rename {
+    my $self   = shift ;
+    my $src    = shift || croak __PACKAGE__," rename: undefined src";
+    my $dst    = shift || croak __PACKAGE__," rename: undefined dst";
+
+    my $result = $self->{aug_c} -> rename($src,$dst) ;
+    return $result;
 }
 
 
